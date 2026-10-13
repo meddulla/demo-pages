@@ -1,0 +1,19 @@
+{
+  "name": "pages-demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:oversize": "node scripts/build.mjs --oversize",
+    "validate": "wrangler pages project validate dist",
+    "upload": "wrangler pages project upload dist --output-manifest-path .wrangler/pages-manifest.json",
+    "deploy": "wrangler pages deploy --branch main",
+    "deploy:functions": "wrangler pages deploy --branch functions",
+    "deploy:worker-file": "wrangler pages deploy dist-worker-file --branch worker-file",
+    "deploy:worker-dir": "wrangler pages deploy dist-worker-dir --branch worker-dir",
+    "check": "node scripts/check.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "4.125.0"
+  }
+}

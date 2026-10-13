@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "pages-demo",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-08-01",
+  "vars": {
+    "GREETING": "top-level"
+  },
+  "env": {
+    "preview": {
+      "vars": {
+        "GREETING": "preview"
+      }
+    },
+    "production": {
+      "vars": {
+        "GREETING": "production"
+      }
+    }
+  }
+}
