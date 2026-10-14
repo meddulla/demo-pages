@@ -1,7 +1,23 @@
 import "./style.css";
 import { label } from "./label.js";
+import data from "./data.json";
+import logoUrl from "./logo.svg";
+import iconUrl from "./icon.svg";
 
-const target = document.querySelector("#greeting");
+const $ = (id) => document.querySelector(`#${id}`);
+
+$("env").textContent = `${import.meta.env.MODE} ${import.meta.env.VITE_SITE_NAME}`;
+$("data").textContent = data.items.join(",");
+$("logo").src = logoUrl;
+$("icon").src = iconUrl;
+
+// Two lazily loaded chunks that share a module, so the build emits a shared chunk.
+Promise.all([import("./lazy-a.js"), import("./lazy-b.js")]).then(([a, b]) => {
+  $("lazy-a").textContent = a.describe();
+  $("lazy-b").textContent = b.describe();
+});
+
+const target = $("greeting");
 target.textContent = label("loading");
 fetch("/api/greeting")
   .then((response) => response.json())

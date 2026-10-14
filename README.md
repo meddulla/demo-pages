@@ -11,7 +11,7 @@ step; `sites/vite` is built with Vite.
 | `sites/functions` | `demo-functions` | Pages Functions: middleware, index, `[param]` and `[[catchall]]` routes, an env var, a text module import and an `assets:` plugin route |
 | `sites/worker-file` | `demo-worker-file` | A `_worker.js` file that imports a module outside `public/`, so it must be bundled. Its `functions/` is skipped |
 | `sites/worker-dir` | `demo-worker-dir` | A `_worker.js/` directory with an extra module and a custom `_routes.json`. Its `functions/` is built but not deployed |
-| `sites/vite` | `demo-vite` | A build step: `npm ci` and `npm run build` (Vite 8.2.2) write `dist/`, which includes `public/` (`_headers`, `robots.txt`). One Pages Function |
+| `sites/vite` | `demo-vite` | A build step: `npm ci` and `npm run build` (Vite 8.2.2) write `dist/`, which includes `public/` (`_headers`, `robots.txt`). The app uses dynamic `import()` with a shared chunk, CSS imported from several modules (one loaded lazily), a CSS `url()`, imported images (one small enough to be inlined), a JSON import and `import.meta.env` from `.env.production`. One Pages Function |
 
 Each `wrangler.jsonc` with vars sets `GREETING` to `production` or `preview`,
 so responses show which environment config was used.

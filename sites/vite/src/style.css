@@ -6,3 +6,9 @@ body {
 #greeting {
   color: #0b6e4f;
 }
+
+.pattern {
+  width: 32px;
+  height: 32px;
+  background: url("./pattern.svg");
+}
