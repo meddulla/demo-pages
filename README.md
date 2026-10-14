@@ -49,7 +49,9 @@ wrangler pages deploy --branch <branch>
 - `pages project validate` and `pages project upload` require the directory
   argument. Only `pages deploy` reads `pages_build_output_dir`.
 - `pages deploy` needs `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`.
-  `pages project upload` needs only an upload token:
+  `pages project upload` sends its requests with the project's upload token,
+  but Wrangler still refuses to run without credentials (an API token or
+  `wrangler login`). Fetch the upload token with:
 
   ```sh
   curl -s -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
