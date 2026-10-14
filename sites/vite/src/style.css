@@ -1,0 +1,8 @@
+body {
+  font-family: system-ui, sans-serif;
+  margin: 2rem;
+}
+
+#greeting {
+  color: #0b6e4f;
+}

@@ -1,8 +1,9 @@
 # Pages demo
 
-Four independent Cloudflare Pages sites. Each directory under `sites/` is a
-complete project with its own `wrangler.jsonc`, project name and committed
-output directory (`public/`). Nothing is built and nothing is shared.
+Five independent Cloudflare Pages sites. Each directory under `sites/` is a
+complete project with its own `wrangler.jsonc` and project name. Nothing is
+shared. Four sites commit their output directory (`public/`) and have no build
+step; `sites/vite` is built with Vite.
 
 | Site | Project | What it exercises |
 |---|---|---|
@@ -10,6 +11,7 @@ output directory (`public/`). Nothing is built and nothing is shared.
 | `sites/functions` | `demo-functions` | Pages Functions: middleware, index, `[param]` and `[[catchall]]` routes, an env var, a text module import and an `assets:` plugin route |
 | `sites/worker-file` | `demo-worker-file` | A `_worker.js` file that imports a module outside `public/`, so it must be bundled. Its `functions/` is skipped |
 | `sites/worker-dir` | `demo-worker-dir` | A `_worker.js/` directory with an extra module and a custom `_routes.json`. Its `functions/` is built but not deployed |
+| `sites/vite` | `demo-vite` | A build step: `npm ci` and `npm run build` (Vite 8.2.2) write `dist/`, which includes `public/` (`_headers`, `robots.txt`). One Pages Function |
 
 Each `wrangler.jsonc` with vars sets `GREETING` to `production` or `preview`,
 so responses show which environment config was used.
@@ -24,7 +26,7 @@ chunk in an upload changes its hash. Its SHA-256 is in `25mib.bin.sha256`.
 npm install
 export CLOUDFLARE_ACCOUNT_ID=<account id>
 export CLOUDFLARE_API_TOKEN=<token with Cloudflare Pages: Edit>
-for site in static functions worker-file worker-dir; do
+for site in static functions worker-file worker-dir vite; do
   npx wrangler pages project create demo-$site --production-branch main
 done
 ```
@@ -41,6 +43,17 @@ git checkout <build-ref>
 cd sites/<site>
 wrangler pages project validate public
 CF_PAGES_UPLOAD_JWT=<upload token> wrangler pages project upload public
+wrangler pages deploy --branch <branch>
+```
+
+For `sites/vite`, build first and use `dist` as the directory:
+
+```sh
+cd sites/vite
+npm ci
+npm run build
+wrangler pages project validate dist
+CF_PAGES_UPLOAD_JWT=<upload token> wrangler pages project upload dist
 wrangler pages deploy --branch <branch>
 ```
 
@@ -77,7 +90,9 @@ node scripts/check.mjs <site> <deployment-url> [<compare-url>]
 The checks expect a preview deployment. With a third argument, the script also
 compares two deployments of the same site, for example the same commit
 deployed by two different tools to two branches. It compares status, final
-path, the demo headers and a body hash for every request.
+path, the demo headers and a body hash for every request. For files a build
+tool generated (the Vite site's page and assets) it compares only status, path
+and headers, and checks that every referenced asset is served.
 
 ```sh
 node scripts/check.mjs functions \

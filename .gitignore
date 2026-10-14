@@ -4,3 +4,7 @@
 .env
 # `wrangler pages deploy` copies assets: plugin files here
 /sites/functions/public/cdn-cgi/
+
+# Build output and dependencies of sites with a build step
+/sites/*/dist/
+node_modules/
