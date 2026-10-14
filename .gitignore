@@ -2,3 +2,5 @@
 .wrangler/
 .dev.vars
 .env
+# `wrangler pages deploy` copies assets: plugin files here
+/sites/functions/public/cdn-cgi/
