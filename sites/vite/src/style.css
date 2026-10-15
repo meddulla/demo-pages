@@ -1,10 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap");
+@import "modern-normalize";
+@import "./theme/tokens.css";
+
 body {
-  font-family: system-ui, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
   margin: 2rem;
 }
 
 #greeting {
-  color: #0b6e4f;
+  color: var(--accent);
 }
 
 .pattern {

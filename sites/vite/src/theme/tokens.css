@@ -1,0 +1,9 @@
+:root {
+  --accent: #0b6e4f;
+}
+
+.badge {
+  width: 24px;
+  height: 24px;
+  background: url("./stripes.svg");
+}
